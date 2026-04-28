@@ -1,0 +1,32 @@
+services:
+  # ── FastAPI Backend ──────────────────────────────────────────────────
+  - type: web
+    name: mumzworld-triage-api
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false            # Set manually in Render dashboard
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: PRIMARY_MODEL
+        value: qwen/qwen-2.5-72b-instruct
+      - key: FALLBACK_MODEL
+        value: meta-llama/llama-3.3-70b-instruct
+      - key: APP_ENV
+        value: production
+
+  # ── Streamlit UI ─────────────────────────────────────────────────────
+  - type: web
+    name: mumzworld-triage-ui
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run ui.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
+    envVars:
+      - key: API_BASE_URL
+        value: https://mumzworld-triage-api.onrender.com   # update after API deploys

@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "name": "pediatric-triage-ui",
+  "builds": [
+    {
+      "src": "vercel-ui/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/vercel-ui/$1"
+    }
+  ]
+}
