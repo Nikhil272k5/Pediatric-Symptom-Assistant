@@ -26,4 +26,4 @@ services:
     startCommand: streamlit run ui.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
     envVars:
       - key: API_BASE_URL
-        value: https://mumzworld-triage-api.onrender.com
+        value: https://pediatric-symptom-assistantmumzworld.onrender.com
