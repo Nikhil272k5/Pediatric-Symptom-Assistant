@@ -1,15 +1,14 @@
 services:
-  # ── FastAPI Backend ──────────────────────────────────────────────────
   - type: web
     name: mumzworld-triage-api
     env: python
     region: oregon
-    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
     envVars:
       - key: OPENROUTER_API_KEY
-        sync: false            # Set manually in Render dashboard
+        sync: false
       - key: OPENROUTER_BASE_URL
         value: https://openrouter.ai/api/v1
       - key: PRIMARY_MODEL
@@ -19,14 +18,12 @@ services:
       - key: APP_ENV
         value: production
 
-  # ── Streamlit UI ─────────────────────────────────────────────────────
   - type: web
     name: mumzworld-triage-ui
     env: python
     region: oregon
-    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: streamlit run ui.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
     envVars:
       - key: API_BASE_URL
-        value: https://mumzworld-triage-api.onrender.com   # update after API deploys
+        value: https://mumzworld-triage-api.onrender.com
